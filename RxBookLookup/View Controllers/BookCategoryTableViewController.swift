@@ -10,10 +10,12 @@ import UIKit
 import RxSwift
 
 class BookCategoryTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.title = "Book Categories"
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -21,20 +23,19 @@ class BookCategoryTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - UITableViewDataSource -
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return BookCategories.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BookCategoriesTableViewCell.reuseIdentifier, for: indexPath) as? BookCategoriesTableViewCell, let category = BookCategories(rawValue: indexPath.row) else {
+            fatalError("Error with Book Category")
+        }
+        
+        cell.configure(with: category)
+        return cell
     }
 }
 
