@@ -14,8 +14,7 @@ class BookCategoriesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
 
-    func configure(with bookCategory: BookCategories) {
+    func configure(with bookCategory: BookCategory) {
         title.text = bookCategory.description
     }
-    
 }

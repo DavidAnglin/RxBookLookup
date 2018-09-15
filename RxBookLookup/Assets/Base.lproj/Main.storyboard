@@ -50,10 +50,10 @@
             </objects>
             <point key="canvasLocation" x="1338" y="116"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--bookResults-->
         <scene sceneID="nht-1K-iOA">
             <objects>
-                <collectionViewController id="1yU-CE-IEc" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="bookResults" title="bookResults" id="1yU-CE-IEc" customClass="BookResultsCollectionViewController" customModule="RxBookLookup" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="e6i-Wd-TVQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,7 +65,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ugV-1m-FKF">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="bookResultsId" id="ugV-1m-FKF">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">

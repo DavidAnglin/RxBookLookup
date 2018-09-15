@@ -7,19 +7,26 @@
 //
 
 import UIKit
+import RxSwift
 
-private let reuseIdentifier = "Cell"
+private let bookResultsCellIdentifier = "bookResultsId"
 
 class BookResultsCollectionViewController: UICollectionViewController {
+    
+    let category = Variable<String>("")
+    let books = Variable<[Book]>([])
 
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print(category)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: bookResultsCellIdentifier)
 
     }
 
@@ -46,12 +53,14 @@ class BookResultsCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookResultsCellIdentifier, for: indexPath)
     
         // Configure the cell
     
         return cell
     }
+    
+    
 
     // MARK: UICollectionViewDelegate
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item

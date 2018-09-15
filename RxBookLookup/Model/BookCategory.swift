@@ -1,5 +1,5 @@
 //
-//  BookCategories.swift
+//  BookCategory.swift
 //  RxBookLookup
 //
 //  Created by David Anglin on 9/15/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BookCategories : Int, CustomStringConvertible {
+enum BookCategory : Int, CustomStringConvertible {
     case sports = 0
     case drama
     case fiction
@@ -19,7 +19,7 @@ enum BookCategories : Int, CustomStringConvertible {
     case horror
     
     case countPlace
-    static var count: Int { return BookCategories.countPlace.rawValue }
+    static var count: Int { return BookCategory.countPlace.rawValue }
     
     var description: String {
         switch self {
