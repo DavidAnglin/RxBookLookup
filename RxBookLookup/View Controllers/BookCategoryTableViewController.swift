@@ -39,7 +39,7 @@ class BookCategoryTableViewController: UITableViewController {
         
         if let category = category?.description {
             bookResultsViewController.title = category
-            bookResultsViewController.category.value = category
+            bookResultsViewController.category = category
             
             navigationController!.pushViewController(bookResultsViewController, animated: true)
             

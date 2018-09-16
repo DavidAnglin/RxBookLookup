@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E0C7763214DC13500B0CF5C /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0C7762214DC13500B0CF5C /* BookCollectionViewCell.swift */; };
 		2E0E5432214D5474002B1653 /* BookResultsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5431214D5474002B1653 /* BookResultsCollectionViewController.swift */; };
 		2E0E5435214D567B002B1653 /* BookCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5434214D567B002B1653 /* BookCategoriesTableViewCell.swift */; };
 		2E0E5437214D575F002B1653 /* BookCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5436214D575F002B1653 /* BookCategory.swift */; };
 		2E0E5439214D5816002B1653 /* BookError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5438214D5816002B1653 /* BookError.swift */; };
-		2E0E543C214D6161002B1653 /* TableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E543B214D6161002B1653 /* TableView+.swift */; };
 		2E0E5442214D77AF002B1653 /* BooksNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5441214D77AF002B1653 /* BooksNetworking.swift */; };
 		2E0E5444214D83A7002B1653 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E5443214D83A7002B1653 /* Book.swift */; };
 		2EDDE9AC214D4B0A00FD4945 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDDE9AB214D4B0A00FD4945 /* AppDelegate.swift */; };
@@ -26,11 +26,11 @@
 		08125B3647335FA1E525A8EA /* Pods-RxBookLookup.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBookLookup.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBookLookup/Pods-RxBookLookup.release.xcconfig"; sourceTree = "<group>"; };
 		144E6E1BE9B47F8E7F7694B7 /* Pods_RxBookLookup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxBookLookup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB76113401F5FA051E9759A /* Pods-RxBookLookup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBookLookup.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxBookLookup/Pods-RxBookLookup.debug.xcconfig"; sourceTree = "<group>"; };
+		2E0C7762214DC13500B0CF5C /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		2E0E5431214D5474002B1653 /* BookResultsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultsCollectionViewController.swift; sourceTree = "<group>"; };
 		2E0E5434214D567B002B1653 /* BookCategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCategoriesTableViewCell.swift; sourceTree = "<group>"; };
 		2E0E5436214D575F002B1653 /* BookCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCategory.swift; sourceTree = "<group>"; };
 		2E0E5438214D5816002B1653 /* BookError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookError.swift; sourceTree = "<group>"; };
-		2E0E543B214D6161002B1653 /* TableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
 		2E0E5441214D77AF002B1653 /* BooksNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksNetworking.swift; sourceTree = "<group>"; };
 		2E0E5443214D83A7002B1653 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		2EDDE9A8214D4B0A00FD4945 /* RxBookLookup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxBookLookup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				2E0E5434214D567B002B1653 /* BookCategoriesTableViewCell.swift */,
+				2E0C7762214DC13500B0CF5C /* BookCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -65,7 +66,6 @@
 		2E0E543A214D6128002B1653 /* Common Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				2E0E543B214D6161002B1653 /* TableView+.swift */,
 			);
 			path = "Common Helpers";
 			sourceTree = "<group>";
@@ -91,8 +91,8 @@
 		2EDDE9AA214D4B0A00FD4945 /* RxBookLookup */ = {
 			isa = PBXGroup;
 			children = (
-				2E0E543A214D6128002B1653 /* Common Helpers */,
 				2EDDE9AB214D4B0A00FD4945 /* AppDelegate.swift */,
+				2E0E543A214D6128002B1653 /* Common Helpers */,
 				2EDDE9C2214D4D7700FD4945 /* Model */,
 				2EDDE9C1214D4D6B00FD4945 /* View Models */,
 				2EDDE9C0214D4D5F00FD4945 /* View Controllers */,
@@ -267,6 +267,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RxBookLookup/Pods-RxBookLookup-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -274,6 +275,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -291,10 +293,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E0E543C214D6161002B1653 /* TableView+.swift in Sources */,
 				2E0E5435214D567B002B1653 /* BookCategoriesTableViewCell.swift in Sources */,
 				2E0E5439214D5816002B1653 /* BookError.swift in Sources */,
 				2EDDE9BE214D4C9400FD4945 /* BookCategoryTableViewController.swift in Sources */,
+				2E0C7763214DC13500B0CF5C /* BookCollectionViewCell.swift in Sources */,
 				2E0E5432214D5474002B1653 /* BookResultsCollectionViewController.swift in Sources */,
 				2E0E5444214D83A7002B1653 /* Book.swift in Sources */,
 				2E0E5437214D575F002B1653 /* BookCategory.swift in Sources */,

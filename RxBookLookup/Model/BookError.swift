@@ -9,5 +9,7 @@
 import Foundation
 
 enum BookError: Error {
+    case invalidParameter(String, Any)
+    case invalidURL(String)
     case invalidJSON(String)
 }

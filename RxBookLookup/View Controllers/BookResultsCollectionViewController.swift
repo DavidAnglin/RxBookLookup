@@ -8,73 +8,53 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 private let bookResultsCellIdentifier = "bookResultsId"
 
 class BookResultsCollectionViewController: UICollectionViewController {
     
-    let category = Variable<String>("")
-    let books = Variable<[Book]>([])
+    var category = String()
+    var books = Variable<[Book]>([])
 
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(category)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: bookResultsCellIdentifier)
-
+        
+        books.asObservable()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.collectionView?.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        fetchBooks()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    func fetchBooks() {
+        BooksNetworking.books(forCategory: category)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] data in
+                self?.books.value = data // I do not think this is correct, need to look into this more!
+                self?.collectionView?.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
-    */
 
     // MARK: UICollectionViewDataSource
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return books.value.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookResultsCellIdentifier, for: indexPath)
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bookResultsCellIdentifier, for: indexPath) as! BookCollectionViewCell
+        
         // Configure the cell
-    
+        cell.configure(with: books.value[indexPath.row])
         return cell
     }
-    
-    
-
-    // MARK: UICollectionViewDelegate
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    /*
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
 }

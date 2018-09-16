@@ -12,51 +12,55 @@ import RxCocoa
 
 class BooksNetworking {
     
-    // MARK:  - API Points -
-    fileprivate enum Address : CustomStringConvertible {
-        case books(category : String)
-        
-        var description: String {
-            switch self {
-            case .books(let category):
-                return "q=\(category)"
-            }
-        }
-        
-        private var baseURL: String { return "https://www.googleapis.com/books/v1/volumes?" }
-        // TODO - Hide this key when I push to remote
-        private var apiKey: String { return "AIzaSyDgjUeNtdYjPlUGhIIbWNKwCwzBdVFxVWI" } // Add your Google Books API Key
-        var url: URL {
-            let urlString = "\(self.baseURL)\(self.description)&\(self.apiKey)"
-            return URL(string: urlString)!
-        }
-    }
+    static let API = "https://www.googleapis.com/books/v1/volumes?"
+    static let APIKey = "" // Add Google Books API Key Here
     
-    static func request(endPoint: String) -> Observable<[String: Any]> {
+    static func request(endpoint: String, query: [String: Any] = [:]) -> Observable<[String: Any]> {
         do {
-            let category = Address.books(category: endPoint)
-            let request = URLRequest(url: category.url)
+            guard let url = URL(string: API),
+                var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                    throw BookError.invalidURL(endpoint)
+            }
+            
+            components.queryItems = try query.compactMap { (key, value) in
+                guard let v = value as? CustomStringConvertible else {
+                    throw BookError.invalidParameter(key, value)
+                }
+                
+                return URLQueryItem(name: key, value: v.description)
+            }
+            
+            guard let finalURL = components.url else {
+                throw BookError.invalidURL(endpoint)
+            }
+            
+            let request = URLRequest(url: finalURL)
             
             return URLSession.shared.rx.response(request: request)
                 .map { _, data in
                     guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
-                        let result = jsonObject as? [String : Any] else {
-                            throw BookError.invalidJSON(category.url.absoluteString)
+                        let result = jsonObject as? [String: Any] else {
+                            throw BookError.invalidJSON(finalURL.absoluteString)
                     }
-                    
                     return result
             }
         } catch {
-            return Observable.empty()
+           return Observable.empty()
         }
     }
     
-    static func books(forCategory category: BookCategory) -> Observable<[Book]> {
-        return request(endPoint: category.description)
+    static func books(forCategory category: String) -> Observable<[Book]> {
+        return request(endpoint: category, query: [
+                "maxResults" : NSNumber(value: 25),
+                "orderBy" : "newest",
+                "q" : "\(category)",
+                "key" : APIKey
+            ])
             .map { json in
-                guard let raw = json["items"] as? [[String:Any]] else {
-                    throw BookError.invalidJSON(category.description)
+                guard let raw = json["items"] as? [[String : Any]] else {
+                    throw BookError.invalidJSON(category)
                 }
+                
                 
                 return raw.compactMap(Book.init)
             }
