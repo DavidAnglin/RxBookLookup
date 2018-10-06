@@ -15,9 +15,22 @@ class BookCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bookTitle: UILabel!
     @IBOutlet weak var bookAuthor: UILabel!
     
-    func configure(with book: Book) {
-        thumbailImage.kf.setImage(with: book.imageURL)
-        bookTitle.text = book.title
-        bookAuthor.text = book.authors.first
+    func setBookTitle(_ title: String) {
+        bookTitle.text = title
     }
+    
+    func setBookAuthor(_ author: String) {
+        bookAuthor.text = author
+    }
+    
+    func setThumbnailImage(_ imageURL: URL!) {
+        thumbailImage.kf.setImage(with: imageURL)
+    }
+    
+    
+//    func configure(with book: Book) {
+//        thumbailImage.kf.setImage(with: book.imageURL)
+//        bookTitle.text = book.title
+//        bookAuthor.text = book.authors.first
+//    }
 }

@@ -8,6 +8,8 @@ target 'RxBookLookup' do
   # Pods for RxBookLookup
     pod 'RxSwift',    '~> 4.0'
     pod 'RxCocoa',    '~> 4.0'
-    pod 'RealmSwift'  
-    pod 'Kingfisher', '~> 4.0'
+    pod 'RxDataSources', '~> 3.0' 
+    pod 'Kingfisher', '~> 4.2.0'
+
+    pod 'Then', '2.2.1'
 end

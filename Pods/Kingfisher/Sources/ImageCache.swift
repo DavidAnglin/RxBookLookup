@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 15/4/6.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2017 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import AppKit
 import UIKit
 #endif
 
-extension Notification.Name {
+public extension Notification.Name {
     /**
      This notification will be sent when the disk cache got cleaned either there are cached files expired or the total size exceeding the max allowed size. The manually invoking of `clearDiskCache` method will not trigger this notification.
      
@@ -40,7 +40,7 @@ extension Notification.Name {
      
      The main purpose of this notification is supplying a chance to maintain some necessary information on the cached files. See [this wiki](https://github.com/onevcat/Kingfisher/wiki/How-to-implement-ETag-based-304-(Not-Modified)-handling-in-Kingfisher) for a use case on it.
      */
-    public static let KingfisherDidCleanDiskCache = Notification.Name.init("com.onevcat.Kingfisher.KingfisherDidCleanDiskCache")
+    public static var KingfisherDidCleanDiskCache = Notification.Name.init("com.onevcat.Kingfisher.KingfisherDidCleanDiskCache")
 }
 
 /**
@@ -131,6 +131,8 @@ open class ImageCache {
                       the `.cachesDirectory` in of your app will be used.
     - parameter diskCachePathClosure: Closure that takes in an optional initial path string and generates
                       the final disk cache path. You could use it to fully customize your cache path.
+    
+    - returns: The cache object.
     */
     public init(name: String,
                 path: String? = nil,
@@ -232,21 +234,16 @@ open class ImageCache {
     - parameter key:               Key for the image.
     - parameter identifier:        The identifier of processor used. If you are using a processor for the image, pass the identifier of processor to it.
                                    This identifier will be used to generate a corresponding key for the combination of `key` and processor.
-    - parameter fromMemory:        Whether this image should be removed from memory or not. If false, the image won't be removed from memory.
-    - parameter fromDisk:          Whether this image should be removed from disk or not. If false, the image won't be removed from disk.
+    - parameter fromDisk:          Whether this image should be removed from disk or not. If false, the image will be only removed from memory.
     - parameter completionHandler: Called when removal operation completes.
     */
     open func removeImage(forKey key: String,
                           processorIdentifier identifier: String = "",
-                          fromMemory: Bool = true,
                           fromDisk: Bool = true,
                           completionHandler: (() -> Void)? = nil)
     {
         let computedKey = key.computedKey(with: identifier)
-
-        if fromMemory {
-            memoryCache.removeObject(forKey: computedKey as NSString)
-        }
+        memoryCache.removeObject(forKey: computedKey as NSString)
         
         func callHandlerInMainQueue() {
             if let handler = completionHandler {
@@ -284,7 +281,7 @@ open class ImageCache {
     @discardableResult
     open func retrieveImage(forKey key: String,
                                options: KingfisherOptionsInfo?,
-                     completionHandler: ((Image?, CacheType) -> Void)?) -> RetrieveImageDiskTask?
+                     completionHandler: ((Image?, CacheType) -> ())?) -> RetrieveImageDiskTask?
     {
         // No completion handler. Not start working and early return.
         guard let completionHandler = completionHandler else {
@@ -293,15 +290,10 @@ open class ImageCache {
         
         var block: RetrieveImageDiskTask?
         let options = options ?? KingfisherEmptyOptionsInfo
-        let imageModifier = options.imageModifier
-
+        
         if let image = self.retrieveImageInMemoryCache(forKey: key, options: options) {
             options.callbackDispatchQueue.safeAsync {
-                completionHandler(imageModifier.modify(image), .memory)
-            }
-        } else if options.fromMemoryCacheOrRefresh { // Only allows to get images from memory cache.
-            options.callbackDispatchQueue.safeAsync {
-                completionHandler(nil, .none)
+                completionHandler(image, .memory)
             }
         } else {
             var sSelf: ImageCache! = self
@@ -310,7 +302,6 @@ open class ImageCache {
                 if let image = sSelf.retrieveImageInDiskCache(forKey: key, options: options) {
                     if options.backgroundDecode {
                         sSelf.processQueue.async {
-
                             let result = image.kf.decoded
                             
                             sSelf.store(result,
@@ -320,7 +311,7 @@ open class ImageCache {
                                         toDisk: false,
                                         completionHandler: nil)
                             options.callbackDispatchQueue.safeAsync {
-                                completionHandler(imageModifier.modify(result), .disk)
+                                completionHandler(result, .memory)
                                 sSelf = nil
                             }
                         }
@@ -333,7 +324,7 @@ open class ImageCache {
                                     completionHandler: nil
                         )
                         options.callbackDispatchQueue.safeAsync {
-                            completionHandler(imageModifier.modify(image), .disk)
+                            completionHandler(image, .disk)
                             sSelf = nil
                         }
                     }
@@ -429,7 +420,7 @@ open class ImageCache {
     */
     open func cleanExpiredDiskCache(completion handler: (()->())? = nil) {
         
-        // Do things in concurrent io queue
+        // Do things in cocurrent io queue
         ioQueue.async {
             
             var (URLsToDelete, diskCacheSize, cachedFiles) = self.travelCachedFiles(onlyForCacheSize: false)
@@ -603,7 +594,7 @@ open class ImageCache {
     
     - parameter completionHandler: Called with the calculated size when finishes.
     */
-    open func calculateDiskCacheSize(completion handler: @escaping ((_ size: UInt) -> Void)) {
+    open func calculateDiskCacheSize(completion handler: @escaping ((_ size: UInt) -> ())) {
         ioQueue.async {
             let (_, diskCacheSize, _) = self.travelCachedFiles(onlyForCacheSize: true)
             DispatchQueue.main.async {

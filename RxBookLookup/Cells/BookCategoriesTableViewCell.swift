@@ -12,9 +12,4 @@ class BookCategoriesTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "BookCategoryCell"
     
-    @IBOutlet weak var title: UILabel!
-
-    func configure(with bookCategory: BookCategory) {
-        title.text = bookCategory.description
-    }
 }

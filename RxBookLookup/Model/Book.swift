@@ -31,3 +31,11 @@ struct Book {
         self.imageURL = bookURL
     }
 }
+
+extension Book: Equatable {
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        return lhs.title == rhs.title
+            && lhs.authors == rhs.authors
+            && lhs.imageURL == rhs.imageURL
+    }
+}
